@@ -12,7 +12,7 @@ namespace FlightSimulator.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// WTF?
+        /// deleted bla bla bla
         /// </summary>
         /// <param name="propName"></param>
         public void NotifyPropertyChanged(string propName)
@@ -21,12 +21,9 @@ namespace FlightSimulator.ViewModels
         }
 
         /// <summary>
-        /// /REMEMBER TO DELETE
+        /// deleted bla bla bla
         /// </summary>
-        public void stam()
-        {
-            return;
-        }
+
     }
 
 }
