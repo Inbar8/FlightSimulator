@@ -11,9 +11,21 @@ namespace FlightSimulator.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// WTF?
+        /// </summary>
+        /// <param name="propName"></param>
         public void NotifyPropertyChanged(string propName)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
+
+        /// <summary>
+        /// /REMEMBER TO DELETE
+        /// </summary>
+        public void stam()
+        {
+            return;
         }
     }
 
