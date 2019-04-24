@@ -28,6 +28,7 @@ namespace FlightSimulator.ViewModels.Windows
                 NotifyPropertyChanged("FlightServerIP");
             }
         }
+        
 
         public int FlightCommandPort
         {
@@ -79,6 +80,8 @@ namespace FlightSimulator.ViewModels.Windows
 
         #region CancelCommand
         private ICommand _cancelCommand;
+        internal Action CloseAction;
+
         public ICommand CancelCommand
         {
             get

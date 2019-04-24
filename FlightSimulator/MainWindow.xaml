@@ -92,38 +92,11 @@
 
 
             <TabItem Header="Auto Pilot">
-                <Grid>
-                    <TextBox Margin="0,0,-0.333,47" BorderBrush="LightSteelBlue" BorderThickness="2">
-                    </TextBox>
-                    <Button Command="{Binding OKCommand}" Content="OK" HorizontalAlignment="Left" Margin="224,432,0,0" VerticalAlignment="Top">
-                        <Button.Background>
-                            <LinearGradientBrush>
-                                <GradientStop Color="LightBlue" Offset="0" />
-                                <GradientStop Color="White" Offset="1" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                    </Button>
-                    <Button Command="{Binding ClearCommand}" Content="Clear" HorizontalAlignment="Center" Margin="145,0,120,20" VerticalAlignment="Bottom" RenderTransformOrigin="0.452,-0.567">
-                        <Button.Background>
-                            <LinearGradientBrush>
-                                <GradientStop Color="LightBlue" Offset="0" />
-                                <GradientStop Color="White" Offset="1" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                    </Button>
-                </Grid>
+                <views:AutoPilotView> </views:AutoPilotView>
             </TabItem>
         </TabControl>
         <Grid HorizontalAlignment="Left" Height="400" VerticalAlignment="Bottom" Width="500" Margin="36,0,0,135">
             <Button Command="{Binding ConnectCommand}" Content="Connect" HorizontalAlignment="Left" Margin="145,0,0,0" VerticalAlignment="Top">
-                <Button.Background>
-                    <LinearGradientBrush>
-                        <GradientStop Color="LightBlue" Offset="0" />
-                        <GradientStop Color="White" Offset="1" />
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Command="{Binding SettingsCommand}"  Content="Settings" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Button.Background>
                     <LinearGradientBrush>
                         <GradientStop Color="LightBlue" Offset="0" />

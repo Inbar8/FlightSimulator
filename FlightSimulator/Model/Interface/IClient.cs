@@ -8,9 +8,10 @@ namespace FlightSimulator.Model.Interface
 {
     class IClient
     {
-//void Connect(string ip, int port);
-       // void Write(string command);
+       /* void Connect(string ip, int port);
+       void Write(string command);
 
-        ////void Disconnect();
+        void Disconnect();
+         */
     }
 }

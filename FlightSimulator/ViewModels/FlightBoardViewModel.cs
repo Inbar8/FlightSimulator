@@ -14,7 +14,7 @@ namespace FlightSimulator.ViewModels
     public class FlightBoardViewModel : BaseNotify
     {
         private Model.FlightBoardModel model;
-        private Setting settingWindow;
+        private Settings settingWindow;
 
 
         public FlightBoardViewModel()
@@ -38,21 +38,22 @@ namespace FlightSimulator.ViewModels
 
 
         #region Commands
-        #region SettingCommand
-        private ICommand _settingCommand;
-        public ICommand SettingsCommand
-        {
-            get
-            {
-                return _settingCommand ?? (_settingCommand = new CommandHandler(() => OnSetting()));
-            }
-        }
-        private void OnSetting()
-        {
+        #region SettingsCommand
+        private ICommand _settingsCommand;
+        //public ICommand SettingsCommand
+        //{
 
-            settingWindow = new Setting();
-            settingWindow.Show();
-        }
+        //    get
+        //    {
+        //        return _settingsCommand ?? (_settingsCommand = new CommandHandler(() => OnSettings()));
+        //    }
+        //}
+        //private void OnSettings()
+        //{
+
+        //    settingWindow = new Settings();
+        //    settingWindow.Show();
+        //}
         #endregion
 
         #region ConnectCommand

@@ -1,6 +1,4 @@
-﻿using FlightSimulator.Model;
-using FlightSimulator.ViewModels.Windows;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,23 +11,24 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using FlightSimulator.Model;
+using FlightSimulator.ViewModels.Windows;
 
 namespace FlightSimulator.Views
 {
     /// <summary>
-    /// Interaction logic for Setting.xaml
+    /// Interaction logic for Settings.xaml
     /// </summary>
-    public partial class Setting : Window
+    public partial class Settings : Window
     {
         public SettingsWindowViewModel vm { get; }
-
-        public Setting()
+        public Settings()
         {
-            //InitializeComponent();
-           // vm = new SettingsWindowViewModel(new ApplicationSettingsModel());
-//            DataContext = vm;
-         //   if (vm.CloseAction == null)
-           //     vm.CloseAction = new Action(() => this.Close());
+            InitializeComponent();
+            vm = new SettingsWindowViewModel(new ApplicationSettingsModel());
+            DataContext = vm;
+            if (vm.CloseAction == null)
+                vm.CloseAction = new Action(() => this.Close());
         }
     }
 }
