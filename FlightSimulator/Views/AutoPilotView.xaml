@@ -8,7 +8,21 @@
              d:DesignHeight="365" Width="370">
     <Grid Background="White">
         <TextBox x:Name="commandsBox"  Text="{Binding CommandsToSend, UpdateSourceTrigger=PropertyChanged}" Background="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="285" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="350"/>
-        <Button x:Name="okButton" Command="{Binding OkCommand}" Content="OK" HorizontalAlignment="Left" Margin="69,311,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="clearButton" Command="{Binding ClearCommand}" Content="Clear" HorizontalAlignment="Left" Margin="235,311,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="okButton" Command="{Binding OkCommand}" Content="OK" HorizontalAlignment="Left" Margin="69,311,0,0" VerticalAlignment="Top" Width="75" >
+            <Button.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="LightBlue" Offset="0" />
+                    <GradientStop Color="White" Offset="1" />
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button x:Name="clearButton" Command="{Binding ClearCommand}" Content="Clear" HorizontalAlignment="Left" Margin="235,311,0,0" VerticalAlignment="Top" Width="75">
+            <Button.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="LightBlue" Offset="0" />
+                    <GradientStop Color="White" Offset="1" />
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </UserControl>

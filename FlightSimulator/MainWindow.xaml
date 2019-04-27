@@ -12,9 +12,13 @@
         <TabControl HorizontalAlignment="Right" Height="500" VerticalAlignment="Bottom" Width="555" Margin="0,0,0,54">
             <TabItem Header="Manual">
                 <Grid Height="500" Width="555">
-                    <views:Joystick Margin="33,-11,10,50"/>
-                    <StackPanel VerticalAlignment="Bottom" Width="300" Margin="130,0,125,50" Grid.Row="1" >
-                        <Slider x:Name="rudderSlider" Minimum="-1" Maximum="1" TickPlacement="BottomRight" TickFrequency="0.1" Margin="10,10,7,-10" Height="67" RenderTransformOrigin="0.5,0.5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="486"/>
+                    </Grid.ColumnDefinitions>
+                    <views:Joystick x:Name="joystick" Margin="33,-11,10,50" Grid.ColumnSpan="2" Aileron="{Binding AileronValue, Mode=OneWayToSource}" Elevator="{Binding ElevatorValue, Mode=OneWayToSource}"/>
+                    <StackPanel VerticalAlignment="Bottom" Width="300" Margin="60.667,0,125,50" Grid.Column="1" >
+                        <Slider x:Name="rudderSlider" Value="{Binding RudderValue}" Minimum="-1" Maximum="1" TickPlacement="BottomRight" TickFrequency="0.1" Margin="10,10,7,-10" Height="67" RenderTransformOrigin="0.5,0.5">
                             <Slider.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform/>
@@ -31,7 +35,7 @@
                         </Canvas>
                     </StackPanel>
 
-                    <Slider x:Name="throttleSlider" Minimum="-1" Maximum="1" TickPlacement="TopLeft" TickFrequency="0.1" Margin="85,77,141,346" >
+                    <Slider x:Name="throttleSlider" Value="{Binding ThrottlleValue}" Minimum="-1" Maximum="1" TickPlacement="TopLeft" TickFrequency="0.1" Margin="15.667,77,141,346" Grid.Column="1" >
                         <Slider.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -41,7 +45,7 @@
                             </TransformGroup>
                         </Slider.RenderTransform>
                     </Slider>
-                    <Canvas>
+                    <Canvas Grid.ColumnSpan="2">
                         <Label FontFamily="Marlett" FontSize="20" Content="5" FontWeight="UltraBold"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Canvas.Top="140" Canvas.Left="20"  />
                         <Label FontFamily="Marlett" FontSize="20" Content="6" FontWeight="UltraBold"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Canvas.Top="270" Canvas.Left="20"  />
                         <Label Content="throttle" FontSize="25" FontWeight="UltraBlack"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Bottom="100"  Canvas.Top="200" Canvas.Left="-15" RenderTransformOrigin="0.5,0.5">
@@ -72,10 +76,10 @@
                         </Label>
 
                     </Canvas>
-                    <Label Content="{Binding ElementName=throttleSlider, Path=Value}" FontWeight="Bold" FontSize="25" HorizontalAlignment="Left"  Margin="84,38,0,0" VerticalAlignment="Top" />
-                    <Label Content="{Binding ElementName=rudderSlider, Path=Value}" FontWeight="Bold" FontSize="25" HorizontalAlignment="Right" Margin="0,423,82,0" VerticalAlignment="Top" />
-                    <Label Content="{Binding ElementName=throttleSlider, Path=Value}" FontWeight="Bold" FontSize="25" HorizontalAlignment="Right" Margin="0,15,44,0" VerticalAlignment="Top" />
-                    <Label Content="{Binding ElementName=throttleSlider, Path=Value}" FontWeight="Bold" FontSize="25" HorizontalAlignment="Right" Margin="0,53,8,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                    <Label Name="throttleValue" Content="{Binding ElementName=throttleSlider, Path=Value}" ContentStringFormat="{}{0:#,#0.00}" FontWeight="Bold" FontSize="25" HorizontalAlignment="Left"  Margin="14.667,38,0,0" VerticalAlignment="Top" Grid.Column="1" />
+                    <Label Name="rudderValue" Content="{Binding ElementName=rudderSlider, Path=Value}" ContentStringFormat="{}{0:#,#0.00}" FontWeight="Bold" FontSize="25" HorizontalAlignment="Right" Margin="0,423,82,0" VerticalAlignment="Top" Grid.Column="1" />
+                    <Label Name="AileronValue" Content="{Binding ElementName=joystick, Path=Aileron}" ContentStringFormat="{}{0:#,#0.00}" FontWeight="Bold" FontSize="25" HorizontalAlignment="Right" Margin="0,15,44,0" VerticalAlignment="Top" Grid.Column="1" />
+                    <Label Name="ElevatorValue" Content="{Binding ElementName=joystick, Path=Elevator}" ContentStringFormat="{}{0:#,#0.00}" FontWeight="Bold" FontSize="25" HorizontalAlignment="Right" Margin="0,74,7.667,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
                         <Label.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -92,11 +96,16 @@
 
 
             <TabItem Header="Auto Pilot">
-                <views:AutoPilotView> </views:AutoPilotView>
+                <views:AutoPilotView></views:AutoPilotView>
             </TabItem>
         </TabControl>
+
         <Grid HorizontalAlignment="Left" Height="400" VerticalAlignment="Bottom" Width="500" Margin="36,0,0,135">
-            <Button Command="{Binding ConnectCommand}" Content="Connect" HorizontalAlignment="Left" Margin="145,0,0,0" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="237*"/>
+                <ColumnDefinition Width="13*"/>
+            </Grid.ColumnDefinitions>
+            <Button Click="ConnectCommand" Command="{Binding ConnectCommand}" Content="Connect" HorizontalAlignment="Left" Margin="145,0,0,380">
                 <Button.Background>
                     <LinearGradientBrush>
                         <GradientStop Color="LightBlue" Offset="0" />
@@ -104,8 +113,21 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Grid HorizontalAlignment="Center" Height="360" VerticalAlignment="Bottom" Width="450">
-                <views:FlightBoard Margin="-18,-5,49,-84"></views:FlightBoard>
+            <Button Click="SettingsCommand" Command="{Binding SettingsCommand}"  Content="Settings" HorizontalAlignment="Center" VerticalAlignment="Top" >
+                <Button.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="LightBlue" Offset="0" />
+                        <GradientStop Color="White" Offset="1" />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+
+            <Grid HorizontalAlignment="Center" Height="360" VerticalAlignment="Bottom" Width="450" Grid.ColumnSpan="2" Margin="25,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="29*"/>
+                </Grid.RowDefinitions>
+                <views:FlightBoard Margin="-18,-17,37,-84" Grid.RowSpan="2"></views:FlightBoard>
             </Grid>
         </Grid>
     </Grid>
