@@ -4,33 +4,36 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FlightSimulator.Model.Network
+// Here is a part of the Network between the application and the simulator
+namespace FlightSimulator.Model
 {
-    class Connect
+    class Commands
     {
+        // members of Commands Class
         private TcpClient client;
         private BinaryWriter writer;
         public bool IsConnected { get; set; } = false;
-        //the singelton implemented from AppSettingsModel
+
+        // This part was taken from your ApplicationSettingsModel 
         #region Singleton
-        private static Connect m_Instance = null;
-        public static Connect Instance
+        private static Commands m_Instance = null;
+        public static Commands Instance
         {
             get
             {
                 if (m_Instance == null)
                 {
-                    m_Instance = new Connect();
+                    m_Instance = new Commands();
                 }
                 return m_Instance;
             }
         }
         #endregion
-        //all the running client features
+
+        // Client Part - ConnectToHost, Disconnect and SendCommands functions
         #region Client
+        //ConnectToHost function according to the ip and port given
         public void ConnectToHost(string ip, int port)
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ip), port);
@@ -46,16 +49,22 @@ namespace FlightSimulator.Model.Network
             IsConnected = true;
             writer = new BinaryWriter(client.GetStream());
         }
+
+        //Disconnect function
         public void Disconnect()
         {
             client.Close();
             m_Instance = null;
         }
+
+        //SendCommands function according to the given data
         public void SendCommands(string data)
         {
-            // Send data to server
+            if (data == "")
+            {
+                return;
+            }
             List<string> result = data.Split('\n').ToList();
-            //sends command every 2 sec
             foreach (var x in result)
             {
                 string tmp = x + "\r\n";

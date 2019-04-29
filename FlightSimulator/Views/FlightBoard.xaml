@@ -7,8 +7,8 @@
              xmlns:local="clr-namespace:FlightSimulator.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
-    <Grid Margin="10,0,0,0">
-        
+    <Grid Height="450">
+
         <Grid.Resources>
             <Style TargetType="TextBlock" x:Key="LabelStyle">
                 <Setter Property="FontSize" Value="20" />
@@ -27,10 +27,25 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Style="{StaticResource LabelStyle}" LayoutTransform="{StaticResource rotate}" VerticalAlignment="Center">Lon</TextBlock>
-        <d3:ChartPlotter Grid.Row="0" Grid.Column="1" LegendVisible="False" Name="plotter" Margin="0.333,25,0,0.333">
+        <TextBlock Style="{StaticResource LabelStyle}" LayoutTransform="{StaticResource rotate}" VerticalAlignment="Center" Margin="-15,194,108,194" Grid.ColumnSpan="2">Lon</TextBlock>
+        <d3:ChartPlotter Grid.Row="0" Grid.Column="1" LegendVisible="False" Name="plotter" Margin="0,25,0,0" Grid.ColumnSpan="5">
         </d3:ChartPlotter>
-        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center">Lat</TextBlock>
-
+        <TextBlock Grid.Row="1" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" Grid.Column="4" Margin="194,4,21,4">Lat</TextBlock>
+        <Button x:Name="connect" Command="{Binding ConnectCommand}" Content="Connect" HorizontalAlignment="Left" Margin="51,0,0,0" VerticalAlignment="Top" Width="76" Grid.Column="1">
+            <Button.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="LightBlue" Offset="0" />
+                    <GradientStop Color="White" Offset="1" />
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button x:Name="settings" Command="{Binding SettingsCommand}"  Content="Settings" HorizontalAlignment="Left" Margin="165,0,0,0" VerticalAlignment="Top" Width="74" Grid.Column="1" >
+            <Button.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="LightBlue" Offset="0" />
+                    <GradientStop Color="White" Offset="1" />
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </UserControl>

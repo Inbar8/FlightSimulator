@@ -1,50 +1,32 @@
-﻿using FlightSimulator.Model.Interface;
-using FlightSimulator.ViewModels;
+﻿using FlightSimulator.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace FlightSimulator.Model
 {
     class FlightBoardModel : BaseNotify
     {
+        private Connect connection;
 
-        private static FlightBoardModel instance = null;
-        private IServer server;
-        private IClient client;
-        private FlightBoardModel() { }
-
-        public string[] Values { get; private set; }
-        public static FlightBoardModel getInstance()
+        public FlightBoardModel()
         {
-            if (instance == null)
-            {
-                instance = new FlightBoardModel();
-            }
-            return instance;
+            this.connection = new Connect();
         }
-        private double lon = 0;
+
+        private double lon;
         public double Lon
         {
             get
             {
                 return lon;
             }
-            private set
+            set
             {
                 lon = value;
-
                 NotifyPropertyChanged("Lon");
             }
         }
-
-        private double lat;
-
-
+        public double lat;
         public double Lat
         {
             get
@@ -54,32 +36,29 @@ namespace FlightSimulator.Model
             set
             {
                 lat = value;
-
                 NotifyPropertyChanged("Lat");
             }
         }
 
-        public void Connect()
+        //Connect function
+        public void Connect(string ip, int port)
         {
-            ISettingsModel model = ApplicationSettingsModel.Instance;
-            server = new Server(model.FlightInfoPort);
-            //wait till the server is connected
-            server.Start();
-            Thread thread = new Thread(() =>
+            connection.ConnectToHost(ip, port);
+            Reader();
+        }
+
+        //Reader function
+        public void Reader()
+        {
+            new Task(delegate ()
             {
-                //Read value from the simulator and update lon and lat 
-                while (true)
+                while (connection.IsRunning)
                 {
-                    Values = server.Read();
-
-                    Lon = Convert.ToDouble(Values[0]);
-                    Lat = Convert.ToDouble(Values[1]);
+                    string[] param = connection.ReadData();
+                    Lon = Convert.ToDouble(param[0]);
+                    Lat = Convert.ToDouble(param[1]);
                 }
-            });
-            thread.Start();
-
-            client = Client.getInstance();
-           // client.Connect(model.FlightServerIP, model.FlightCommandPort);
+            }).Start();
         }
     }
 }

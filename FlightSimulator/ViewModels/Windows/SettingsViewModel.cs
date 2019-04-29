@@ -1,22 +1,20 @@
 ﻿using FlightSimulator.Model;
 using FlightSimulator.Model.Interface;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace FlightSimulator.ViewModels.Windows
 {
-    public class SettingsWindowViewModel : BaseNotify
+    public class SettingsViewModel : BaseNotify
     {
         private ISettingsModel model;
+        private Window window;
 
-        public SettingsWindowViewModel(ISettingsModel model)
+        public SettingsViewModel(Window aWindow)
         {
-            this.model = model;
+            this.model = new ApplicationSettingsModel();
+            this.window = aWindow;
         }
 
         public string FlightServerIP
@@ -28,7 +26,6 @@ namespace FlightSimulator.ViewModels.Windows
                 NotifyPropertyChanged("FlightServerIP");
             }
         }
-        
 
         public int FlightCommandPort
         {
@@ -50,8 +47,6 @@ namespace FlightSimulator.ViewModels.Windows
             }
         }
 
-
-
         public void SaveSettings()
         {
             model.SaveSettings();
@@ -62,6 +57,7 @@ namespace FlightSimulator.ViewModels.Windows
             model.ReloadSettings();
         }
 
+        // Binding the ViewModel to the View by using commands
         #region Commands
         #region ClickCommand
         private ICommand _clickCommand;
@@ -74,14 +70,13 @@ namespace FlightSimulator.ViewModels.Windows
         }
         private void OnClick()
         {
+            window.Close();
             model.SaveSettings();
         }
         #endregion
 
         #region CancelCommand
         private ICommand _cancelCommand;
-        internal Action CloseAction;
-
         public ICommand CancelCommand
         {
             get
@@ -91,11 +86,11 @@ namespace FlightSimulator.ViewModels.Windows
         }
         private void OnCancel()
         {
+            window.Close();
             model.ReloadSettings();
         }
         #endregion
         #endregion
-
     }
 }
 

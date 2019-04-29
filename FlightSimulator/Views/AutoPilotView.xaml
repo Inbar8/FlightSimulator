@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FlightSimulator.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="365" Width="370">
+             d:DesignHeight="370" Width="370">
     <Grid Background="White">
-        <TextBox x:Name="commandsBox"  Text="{Binding CommandsToSend, UpdateSourceTrigger=PropertyChanged}" Background="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="285" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="350"/>
-        <Button x:Name="okButton" Command="{Binding OkCommand}" Content="OK" HorizontalAlignment="Left" Margin="69,311,0,0" VerticalAlignment="Top" Width="75" >
+        <TextBox x:Name="commandsBox"  Text="{Binding CommandsToSend, UpdateSourceTrigger=PropertyChanged}" Background="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}"  Height="285" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300"/>
+        <Button x:Name="okButton" Command="{Binding OkCommand}" Content="OK" Margin="95,305,200,45"  Height="20" Width="75" >
             <Button.Background>
                 <LinearGradientBrush>
                     <GradientStop Color="LightBlue" Offset="0" />
@@ -16,7 +16,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="clearButton" Command="{Binding ClearCommand}" Content="Clear" HorizontalAlignment="Left" Margin="235,311,0,0" VerticalAlignment="Top" Width="75">
+        <Button x:Name="clearButton" Command="{Binding ClearCommand}" Content="Clear" Margin="205,305,90,45" Height="20" Width="75">
             <Button.Background>
                 <LinearGradientBrush>
                     <GradientStop Color="LightBlue" Offset="0" />

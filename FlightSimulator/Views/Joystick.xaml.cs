@@ -1,19 +1,10 @@
 ﻿using FlightSimulator.Model.EventArgs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FlightSimulator.Views
 {
@@ -24,7 +15,7 @@ namespace FlightSimulator.Views
     {
         /// <summary>Current Aileron</summary>
         public static readonly DependencyProperty AileronProperty =
-            DependencyProperty.Register("Aileron", typeof(double), typeof(Joystick),null);
+            DependencyProperty.Register("Aileron", typeof(double), typeof(Joystick), null);
 
         /// <summary>Current Elevator</summary>
         public static readonly DependencyProperty ElevatorProperty =
@@ -80,12 +71,6 @@ namespace FlightSimulator.Views
         }
 
         /// <summary>Indicates whether the joystick knob resets its place after being released</summary>
-        //public bool ResetKnobAfterRelease
-        //{
-        //    get { return Convert.ToBoolean(GetValue(ResetKnobAfterReleaseProperty)); }
-        //    set { SetValue(ResetKnobAfterReleaseProperty, value); }
-        //}
-
         /// <summary>Delegate holding data for joystick state change</summary>
         /// <param name="sender">The object that fired the event</param>
         /// <param name="args">Holds new values for Aileron and Elevator</param>
@@ -139,30 +124,32 @@ namespace FlightSimulator.Views
             Point newPos = e.GetPosition(Base);
 
             Point deltaPos = new Point(newPos.X - _startPos.X, newPos.Y - _startPos.Y);
-
+            // eculeadan distance
             double distance = Math.Round(Math.Sqrt(deltaPos.X * deltaPos.X + deltaPos.Y * deltaPos.Y));
+            //if distance bigger then half the grid size
             if (distance >= canvasWidth / 2 || distance >= canvasHeight / 2)
                 return;
-            Aileron = deltaPos.X / 124;
-            Elevator = -deltaPos.Y / 124;
-
-            string setAileronValue = "set controls/flight/aileron " + Aileron;
-            string setElevatorValue = "set controls/flight/elevator " + Elevator;
-
-            Model.Client.getInstance().Write(setAileronValue);
-            Model.Client.getInstance().Write(setElevatorValue);
-
+            //Aileron = -delta y,Elvetor = delta x
+            Aileron = -deltaPos.Y;
+            Elevator = deltaPos.X;
+            //normalize
+            Aileron = 2 * ((Aileron + 125) / 250) - 1;
+            Elevator = 2 * ((Elevator + 125) / 250) - 1;
+            //knobX = delta x,knobY = delta y
             knobPosition.X = deltaPos.X;
             knobPosition.Y = deltaPos.Y;
+            Debug.WriteLine("Aileron : " + Convert.ToString(Aileron) + Environment.NewLine + "Elevetor : " + Convert.ToString(Elevator));
 
+            //if bigger then a step or didnt move
             if (Moved == null ||
                 (!(Math.Abs(_prevAileron - Aileron) > AileronStep) && !(Math.Abs(_prevElevator - Elevator) > ElevatorStep)))
                 return;
-
+            //if not null, invoke with the values
             Moved?.Invoke(this, new VirtualJoystickEventArgs { Aileron = Aileron, Elevator = Elevator });
+            //set as last values
             _prevAileron = Aileron;
             _prevElevator = Elevator;
-
+            //Debug.WriteLine("Chnaged value" + Environment.NewLine + "Aileron : " + Convert.ToString(Aileron) + Environment.NewLine + "Elevetor : " + Convert.ToString(Elevator));
         }
 
         private void Knob_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

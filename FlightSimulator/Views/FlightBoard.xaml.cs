@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using FlightSimulator.Views;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using FlightSimulator.Model;
 using FlightSimulator.ViewModels;
 using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
+
 
 namespace FlightSimulator.Views
 {
@@ -26,10 +13,15 @@ namespace FlightSimulator.Views
     /// </summary>
     public partial class FlightBoard : UserControl
     {
+        private FlightBoardViewModel vm;
         ObservableDataSource<Point> planeLocations = null;
         public FlightBoard()
         {
             InitializeComponent();
+            vm = new FlightBoardViewModel();
+            DataContext = vm;
+            //add to eventhandler
+            vm.PropertyChanged += Vm_PropertyChanged;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -43,21 +35,11 @@ namespace FlightSimulator.Views
 
         private void Vm_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName.Equals("Lat") || e.PropertyName.Equals("Lon"))
+            if (e.PropertyName.Equals("Lat") || e.PropertyName.Equals("Lon"))
             {
-                Point p1 = new Point(0,0);            // Fill here!
-                planeLocations.AppendAsync(Dispatcher, p1);
+                Point p = new Point(vm.Lat, vm.Lon);
+                planeLocations.AppendAsync(Dispatcher, p);
             }
-        }
-        private void SettingsCommand(object sender, RoutedEventArgs e)
-        {
-            Settings settings = new Settings();
-            settings.Show();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 

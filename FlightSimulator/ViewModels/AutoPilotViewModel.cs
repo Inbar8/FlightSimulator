@@ -1,17 +1,17 @@
 ﻿using System.Windows.Input;
 using System.Windows.Media;
-//
 using FlightSimulator.Model;
 
 namespace FlightSimulator.ViewModels
 {
     class AutoPilotViewModel : BaseNotify
     {
-        //init
+        // AutoPilotViewModel members
         private AutoPilotModel model;
         private string commandsToSend;
         private Brush backgroundColor = Brushes.White;
-        //properties
+
+        #region Properties
         public string CommandsToSend
         {
             get { return commandsToSend; }
@@ -34,15 +34,18 @@ namespace FlightSimulator.ViewModels
             set
             {
                 backgroundColor = value;
-                //notify the binded property
                 NotifyPropertyChanged("BackgroundColor");
             }
         }
-        //constructor
+        #endregion
+
+        // AutoPilotViewModel constructor
         public AutoPilotViewModel()
         {
             model = new AutoPilotModel();
         }
+
+        // okButton Part
         #region okButton
         private ICommand okCommand;
         public ICommand OkCommand
@@ -51,17 +54,17 @@ namespace FlightSimulator.ViewModels
             {
                 return okCommand ?? (okCommand = new CommandHandler(() =>
                 {
-                    //reset view
                     string sendText = CommandsToSend;
                     CommandsToSend = "";
                     NotifyPropertyChanged(CommandsToSend);
-                    //sends the commands & reset color
                     BackgroundColor = Brushes.White;
                     model.SendCommands(sendText);
                 }));
             }
         }
         #endregion
+
+        // clearButton Part
         #region clearButton
         private ICommand clearCommand;
         public ICommand ClearCommand
@@ -70,7 +73,6 @@ namespace FlightSimulator.ViewModels
             {
                 return clearCommand ?? (clearCommand = new CommandHandler(() =>
                 {
-                    //reset view
                     CommandsToSend = "";
                     BackgroundColor = Brushes.White;
                     NotifyPropertyChanged(CommandsToSend);
@@ -78,6 +80,5 @@ namespace FlightSimulator.ViewModels
             }
         }
         #endregion
-
     }
 }

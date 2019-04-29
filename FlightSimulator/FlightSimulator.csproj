@@ -65,20 +65,18 @@
     </Compile>
     <Compile Include="Model\ApplicationSettingsModel.cs" />
     <Compile Include="Model\AutoPilotModel.cs" />
-    <Compile Include="Model\Client.cs" />
+    <Compile Include="Model\Connect.cs" />
     <Compile Include="Model\CommandHandler.cs" />
     <Compile Include="Model\EventArgs\VirtualJoystickEventArgs.cs" />
     <Compile Include="Model\FlightBoardModel.cs" />
-    <Compile Include="Model\Interface\IClient.cs" />
-    <Compile Include="Model\Interface\IServer.cs" />
     <Compile Include="Model\Interface\ISettingsModel.cs" />
-    <Compile Include="Model\Network\Connect.cs" />
-    <Compile Include="Model\Server.cs" />
+    <Compile Include="Model\ManualPilotModel.cs" />
+    <Compile Include="Model\Commands.cs" />
     <Compile Include="ViewModels\AutoPilotViewModel.cs" />
     <Compile Include="ViewModels\BaseNotify.cs" />
     <Compile Include="ViewModels\FlightBoardViewModel.cs" />
-    <Compile Include="ViewModels\ManualViewModel.cs" />
-    <Compile Include="ViewModels\Windows\SettingsWindowViewModel.cs" />
+    <Compile Include="ViewModels\ManualPilotViewModel.cs" />
+    <Compile Include="ViewModels\Windows\SettingsViewModel.cs" />
     <Compile Include="Views\AutoPilotView.xaml.cs">
       <DependentUpon>AutoPilotView.xaml</DependentUpon>
     </Compile>
@@ -92,7 +90,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\Settings.xaml.cs">
+    <Compile Include="Views\ManualPilotView.xaml.cs">
+      <DependentUpon>ManualPilotView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -111,7 +112,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Settings.xaml">
+    <Page Include="Views\ManualPilotView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -143,8 +148,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Windows\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace FlightSimulator.Model
 {
-    class AutoPilotModel : BaseNotify
+    class ManualPilotModel : BaseNotify
     {
         public void SendCommands(string data)
         {

@@ -1,73 +1,83 @@
 ﻿using FlightSimulator.Model;
-using FlightSimulator.Model.Interface;
-using FlightSimulator.Views;
+using FlightSimulator.Views.Windows;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Input;
 
 namespace FlightSimulator.ViewModels
 {
     public class FlightBoardViewModel : BaseNotify
     {
-        private Model.FlightBoardModel model;
-        private Settings settingWindow;
-
+        private FlightBoardModel model;
+        private Settings settings = new Settings();
 
         public FlightBoardViewModel()
         {
-            model = Model.FlightBoardModel.getInstance();
+            model = new FlightBoardModel();
             model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
             {
+                if (e.PropertyName == "Lat") { Lat = model.Lat; }
+                if (e.PropertyName == "Lon") { Lon = model.Lon; }
                 NotifyPropertyChanged(e.PropertyName);
-
             };
         }
+
+        private double lon;
         public double Lon
         {
-            get { return model.Lon; }
+            get { return lon; }
+            set {
+                lon = value;
+                NotifyPropertyChanged("Lon");
+            }
         }
 
+        private double lat;
         public double Lat
         {
-            get { return model.Lat; }
+            get { return lat; }
+            set {
+                lat = value;
+                NotifyPropertyChanged("Lat");
+            }
         }
-
 
         #region Commands
         #region SettingsCommand
-        private ICommand _settingsCommand;
-        //public ICommand SettingsCommand
-        //{
+        private ICommand settingsCommand;
+        public ICommand SettingsCommand
+        {
+            get
+            {
+                return settingsCommand ?? (settingsCommand = new CommandHandler(() => OnSettings()));
+            }
+        }
 
-        //    get
-        //    {
-        //        return _settingsCommand ?? (_settingsCommand = new CommandHandler(() => OnSettings()));
-        //    }
-        //}
-        //private void OnSettings()
-        //{
-
-        //    settingWindow = new Settings();
-        //    settingWindow.Show();
-        //}
+        private void OnSettings()
+        {
+            settings = new Settings();
+            settings.Show();
+        }
         #endregion
 
         #region ConnectCommand
-        private ICommand _connectCommand;
+        private ICommand connectCommand;
         public ICommand ConnectCommand
         {
             get
             {
-                return _connectCommand ?? (_connectCommand = new CommandHandler(() => OnConnect()));
+                return connectCommand ?? (connectCommand = new CommandHandler(() => OnConnect()));
             }
         }
+
         private void OnConnect()
         {
-            model.Connect();
+            new Thread(delegate ()
+            {
+                Commands.Instance.ConnectToHost(ApplicationSettingsModel.Instance.FlightServerIP, ApplicationSettingsModel.Instance.FlightCommandPort);
+            }).Start();
+            model.Connect(ApplicationSettingsModel.Instance.FlightServerIP, ApplicationSettingsModel.Instance.FlightInfoPort);
         }
         #endregion
         #endregion
